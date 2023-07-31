@@ -57,10 +57,10 @@ def notifi(section, model_name):
     else:
         text = f"{model_name} was not found in HuggingFace Space."
 
-    image_links = {"Pending": "https://i.hizliresim.com/1w2vova.png",
-                   "Running": "https://i.hizliresim.com/crnac11.png",
-                   "Finished": "https://i.hizliresim.com/kidaf5y.png",
-                   "Not": "https://cdn-icons-png.flaticon.com/512/4225/4225690.png"}
+    image_links = {"Pending": "https://raw.githubusercontent.com/Weyaxi/open_llm_leaderboard_tracker/main/images/pending.jpeg",
+                   "Running": "https://raw.githubusercontent.com/Weyaxi/open_llm_leaderboard_tracker/main/images/running.jpeg",
+                   "Finished": "https://raw.githubusercontent.com/Weyaxi/open_llm_leaderboard_tracker/main/images/finished.jpeg",
+                   "Not": "https://raw.githubusercontent.com/Weyaxi/open_llm_leaderboard_tracker/main/images/not_found.png"}
 
     toast("Model Not Found" if section == "Not" else section + "List", text, icon=image_links[section], on_click='https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard')
 
