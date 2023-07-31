@@ -8,25 +8,29 @@ The HuggingFace Open LLM Leaderboard Tracker is a Python script that provides no
 To run the script, you need to have the following installed on your system:
 
 - Python 3
-- requirements.txt
+- Liblaries from `requirements.txt`
 
-You can install the required Python packages using pip3:
+### Usage
+
+1. Clone the repository.
+
+```bash
+git clone https://github.com/Weyaxi/open-llm-leaderboard-tracker
+```
+   
+2. Open a terminal or command prompt and navigate to the directory containing the script.
+
+```bash
+cd open-llm-leaderboard-tracker
+```
+
+3. Install the required Python packages using pip3:
 
 ```bash
 pip3 install –r requirements.txt
 ```
 
-### Usage
-
-1. Clone the repository.
-   
-2. Open a terminal or command prompt and navigate to the directory containing the script.
-
-```bash
-cd open_llm_leaderboard_tracker
-```
-
-3. Run the script with the following command:
+4. Run the script with the following command:
 
 ```bash
 python3 main.py --models "<model1>" "<model2>" --wait <seconds>
@@ -34,36 +38,29 @@ python3 main.py --models "<model1>" "<model2>" --wait <seconds>
 
 Replace `<model1>`, `<model2>` etc. with the names of the models you want to track, separated by spaces. The `--wait` option allows you to set the time interval (in seconds) between checks. The default interval is 60 seconds.
 
-For example, to track models `"user/model1"` and `"user/model2"` every 120 seconds, you would run:
+For example, to track models `"user/model1"` and `"user/model2"` every `120` seconds, you would run:
 
 ```bash
-python huggingface_llm_tracker.py --models "user/model1" "user/model2" --wait 120
+python3 main.py --models "user/model1" "user/model2" --wait 120
 ```
 
 ### Notifications
 
-The script will check the Open Law LLM Leaderboard website for the status of the specified models (pending, running, or finished) and display desktop notifications accordingly.
-
-If a model is pending or running, you will receive a notification stating that the model is currently on the pending or running list.
-
-If a model is finished, you will receive a notification stating that the model is on the Open LLM Leaderboard finished list.
-
-If a model is not found on any list, you will receive a notification indicating that the model was not found in the HuggingFace Space.
+The script will check the Open LLM Leaderboard website for the status of the specified models (pending, running, or finished) and display desktop notifications accordingly.
 
 ## Screenshots
 
-![image](https://github.com/Weyaxi/open_llm_leaderboard_tracker/assets/81961593/85af5e70-08a3-4803-99cb-7b0df663842d)
-
-![image](https://github.com/Weyaxi/open_llm_leaderboard_tracker/assets/81961593/8e9b0c50-9a3b-4075-9d8a-1863d17e3c0f)
-
-![image](https://github.com/Weyaxi/open_llm_leaderboard_tracker/assets/81961593/57c0f9e6-ea2f-49f7-bc6e-1cd91da3b9bc)
+![image](https://github.com/Weyaxi/open-llm-leaderboard-tracker/assets/81961593/32f063b8-2b43-4517-9ccf-efe6f95b0af2)
 
 ![image](https://github.com/Weyaxi/open_llm_leaderboard_tracker/assets/81961593/817be87a-e257-41c7-a86c-cfcba235aec5)
 
+![image](https://github.com/Weyaxi/open_llm_leaderboard_tracker/assets/81961593/85af5e70-08a3-4803-99cb-7b0df663842d)
+
+![image](https://github.com/Weyaxi/open-llm-leaderboard-tracker/assets/81961593/1905eae6-d5c2-4c29-8323-5728f4d968c2)
 
 ## Acknowledgments
 
-The script utilizes BeautifulSoup and requests libraries to scrape data from the HuggingFace Open LLM Leaderboard website.
+The script utilizes `bs4` and `requests` libraries to scrape data from the HuggingFace Open LLM Leaderboard website. After that `json` liblary helps process the scraped data.
 
 It also uses the `win11toast` library to display desktop notifications on Windows.
 
