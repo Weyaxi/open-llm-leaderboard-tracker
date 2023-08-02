@@ -27,7 +27,7 @@ cd open-llm-leaderboard-tracker
 3. Install the required Python packages using pip3:
 
 ```bash
-pip3 install –r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 4. Run the script with the following command:
