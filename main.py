@@ -77,12 +77,12 @@ if __name__ == "__main__":
         data = get_json_format_data()
 
         for model in models:
-            if model in get_datas('pending', data):
-                notifi("Pending", model)
-            elif model in get_datas('finished', data):
+            if model in get_datas('finished', data):
                 notifi("Finished", model)
             elif model in get_datas('running', data):
                 notifi("Running", model)
+            elif model in get_datas('pending', data):
+                notifi("Pending", model)
             else:
                 notifi("Not", model)
         time.sleep(how_much_wait)
