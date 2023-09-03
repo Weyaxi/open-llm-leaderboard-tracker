@@ -17,11 +17,11 @@ def get_json_format_data():
     return json_format_data
 
 
-def get_datas(which_one, data):
+def get_datas(which_one, data, base_index):
     data_components_map = {
-        'pending': {'component_index': 28, 'pattern': r'<a[^>]*>(.*?)</a>', "zero_or_one": 0},
-        'running': {'component_index': 25, 'pattern': r'<a[^>]*>(.*?)</a>', "zero_or_one": 0},
-        'finished': {'component_index': 11, 'pattern': r'href="([^"]*)"', "zero_or_one": 1}
+        'pending': {'component_index': base_index+17, 'pattern': r'<a[^>]*>(.*?)</a>', "zero_or_one": 0},
+        'running': {'component_index': base_index+14, 'pattern': r'<a[^>]*>(.*?)</a>', "zero_or_one": 0},
+        'finished': {'component_index': base_index, 'pattern': r'href="([^"]*)"', "zero_or_one": 1}
     }
 
     data_component_info = data_components_map[which_one.lower()]
@@ -35,7 +35,7 @@ def get_datas(which_one, data):
     result_list = []
     i = 0
     while True:
-        try:
+        try:  
             unfiltered = data['components'][component_index]['props']['value']['data'][i][zero_or_one].rstrip("\n")
             normal_name = re.search(pattern, unfiltered).group(1)
             normal_name = "/".join(normal_name.split("/")[-2:]) if which_one == "finished" else normal_name
@@ -65,6 +65,16 @@ def notifi(section, model_name):
     toast("Model Not Found" if section == "Not" else section + "List", text, icon=image_links[section], on_click='https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard')
 
 
+def find_base_index(data):
+    for i in range(17, 50):
+        try:
+            get_datas("finished", data, i)
+            return i
+        except KeyError:
+            continue
+    raise ValueError("Base index not found")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="HuggingFace Model Notification Script")
     parser.add_argument('--models', nargs='+', required=True, help="List of model names separated by spaces")
@@ -73,16 +83,26 @@ if __name__ == "__main__":
     args = parser.parse_args()
     models = args.models
     how_much_wait = args.wait
-    while True:     
-        data = get_json_format_data()
+    while True:
+        data = get_json_format_data() 
+        base_index = find_base_index(data)
 
         for model in models:
-            if model in get_datas('finished', data):
-                notifi("Finished", model)
-            elif model in get_datas('running', data):
-                notifi("Running", model)
-            elif model in get_datas('pending', data):
-                notifi("Pending", model)
-            else:
-                notifi("Not", model)
+            try:
+
+                finished_models = get_datas('finished', data, base_index)
+                running_models = get_datas('running', data, base_index)
+                pending_models = get_datas('pending', data, base_index)
+
+                if model in finished_models:
+                    notifi("Finished", model)
+                elif model in running_models:
+                    notifi("Running", model)
+                elif model in pending_models:
+                    notifi("Pending", model)
+                else:
+                    notifi("Not", model)
+            except ValueError as e:
+                print(f"Error: {e}") 
+
         time.sleep(how_much_wait)
